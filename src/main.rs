@@ -9,8 +9,17 @@ use rustos::println;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
+
     println!("Hello World{}", "!");
 
+    rustos::init();
+
+    fn stack_overflow() {
+        stack_overflow(); // for each recursion, the return address is pushed
+    }
+
+    stack_overflow();
+    
     #[cfg(test)]
     test_main();
 
