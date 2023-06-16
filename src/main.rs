@@ -14,23 +14,19 @@ pub extern "C" fn _start() -> ! {
 
     rustos::init();
 
-    fn stack_overflow() {
-        stack_overflow(); // for each recursion, the return address is pushed
-    }
-
-    stack_overflow();
+    println!("It did not crash");
     
     #[cfg(test)]
     test_main();
 
-    loop {}
+    rustos::hlt_loop();
 }
 
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    rustos::hlt_loop();
 }
 
 #[cfg(test)]
